@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // @required is defined in the meta.dart package
 import 'package:meta/meta.dart';
 
+import 'package:category_widget/converter_route.dart';
+import 'package:category_widget/unit.dart';
+
 /* We use an underscore to indicate that these variables are private.
  See https://www.dartlang.org/guides/language/effective-dart/design#libraries */
 final _rowHeight = 100.0;
@@ -20,6 +23,7 @@ class Category extends StatelessWidget {
   final String name;
   final ColorSwatch color;
   final IconData iconLocation;
+  final List<Unit> units;
 
   /// Creates a [Category].
   ///
@@ -30,10 +34,40 @@ class Category extends StatelessWidget {
     @required this.name,
     @required this.color,
     @required this.iconLocation,
+    @required this.units,
   })  : assert(name != null),
         assert(color != null),
         assert(iconLocation != null),
+        assert(units != null),
         super(key: key);
+
+  /// Navigates to the [ConverterRoute].
+  void _navigateToConverter(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute<Null>(
+      builder: (BuildContext context) {
+        return Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            elevation: 1.0,
+            title: Text(
+              name,
+                style: TextStyle(
+                  color: _colorBody,
+                  fontSize:
+                  Theme.of(context).textTheme.headline4.fontSize,
+                ),
+            ),
+            centerTitle: true,
+            backgroundColor: color,
+          ),
+          body: ConverterRoute(
+            units: units,
+            color: color,
+          ),
+        );
+      },
+    ));
+  }
 
   /// Builds a custom widget that shows [Category] information.
   ///
@@ -55,9 +89,7 @@ class Category extends StatelessWidget {
             splashColor: color[100],
             /* It can by used either the () => function()
             or the () { function(); } syntax. */
-            onTap: () {
-              print('I was tapped');
-            },
+            onTap: () => _navigateToConverter(context),
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: Row(
