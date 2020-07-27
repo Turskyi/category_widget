@@ -1,11 +1,9 @@
 /* To keep imports tidy, must be followed the ordering guidelines at
  https://www.dartlang.org/guides/language/effective-dart/style#ordering */
-import 'package:flutter/material.dart';
-// @required is defined in the meta.dart package
-import 'package:meta/meta.dart';
-
 import 'package:category_widget/converter_route.dart';
 import 'package:category_widget/unit.dart';
+import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 /* We use an underscore to indicate that these variables are private.
  See https://www.dartlang.org/guides/language/effective-dart/design#libraries */
@@ -48,14 +46,16 @@ class Category extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.white, //change your color here
+            ),
             elevation: 1.0,
             title: Text(
               name,
-                style: TextStyle(
-                  color: _colorBody,
-                  fontSize:
-                  Theme.of(context).textTheme.headline4.fontSize,
-                ),
+              style: TextStyle(
+                color: _colorBody,
+                fontSize: Theme.of(context).textTheme.headline4.fontSize,
+              ),
             ),
             centerTitle: true,
             backgroundColor: color,
@@ -64,6 +64,9 @@ class Category extends StatelessWidget {
             units: units,
             color: color,
           ),
+          /* This prevents the attempt to resize the screen when the keyboard
+           is opened */
+          resizeToAvoidBottomPadding: false,
         );
       },
     ));
@@ -85,8 +88,8 @@ class Category extends StatelessWidget {
           height: _rowHeight,
           child: InkWell(
             borderRadius: _borderRadius,
-            highlightColor: color[50],
-            splashColor: color[100],
+            highlightColor: color['highlight'],
+            splashColor: color['splash'],
             /* It can by used either the () => function()
             or the () { function(); } syntax. */
             onTap: () => _navigateToConverter(context),
@@ -102,11 +105,10 @@ See https://www.dartlang.org/guides/language/effective-dart/usage#do-use-collect
                   Padding(
                       padding: EdgeInsets.only(right: 40.0),
                       child: Icon(
-                              iconLocation,
-                              size: _sizeIcon,
-                              color: _colorBody,
-                            )
-                         ),
+                        iconLocation,
+                        size: _sizeIcon,
+                        color: _colorBody,
+                      )),
                   Center(
                     child: Text(name,
                         textAlign: TextAlign.center,
