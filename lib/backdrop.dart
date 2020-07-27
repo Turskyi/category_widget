@@ -7,6 +7,7 @@ import 'category.dart';
 
 const double _kFlingVelocity = 2.0;
 const _colorBody = Colors.white;
+const _radius = Radius.circular(16.0);
 
 class _BackdropPanel extends StatelessWidget {
   const _BackdropPanel({
@@ -30,8 +31,8 @@ class _BackdropPanel extends StatelessWidget {
       color: Colors.black,
       elevation: 2.0,
       borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(16.0),
-        topRight: Radius.circular(16.0),
+        topLeft: _radius,
+        topRight: _radius,
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(),
