@@ -6,6 +6,8 @@ import 'category_tile.dart';
 import 'unit_converter.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'api.dart';
+
 
 /// Loads in unit conversion data, and displays the data.
 ///
@@ -39,9 +41,14 @@ class _CreateRouteState extends State<CategoryRoute> {
     'assets/icons/time.png',
     'assets/icons/digital_storage.png',
     'assets/icons/power.png',
+    'assets/icons/currency.png',
   ];
 
   static const _baseColors = <ColorSwatch>[
+    ColorSwatch(0xFF6AB7A8, {
+      'highlight': Color(0xFF6AB7A8),
+      'splash': Color(0xFF0ABC9B),
+    }),
     ColorSwatch(0xFFFFD28E, {
       'highlight': Color(0xFFFFD28E),
       'splash': Color(0xFFFFA41C),
@@ -80,6 +87,7 @@ class _CreateRouteState extends State<CategoryRoute> {
      assets/data/regular_units.json */
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
+      await _retrieveApiCategory();
     }
   }
 
@@ -113,6 +121,38 @@ class _CreateRouteState extends State<CategoryRoute> {
       });
       categoryIndex += 1;
     });
+  }
+
+  /// Retrieves a [Category] and its [Unit]s from an API on the web
+  Future<void> _retrieveApiCategory() async {
+    /* Adds a placeholder while fetches the Currency category using the API */
+    setState(() {
+      _categories.add(Category(
+        name: apiCategory['name'],
+        units: [],
+        color: _baseColors.last,
+        iconLocation: _icons.last,
+      ));
+    });
+    final api = Api();
+    final jsonUnits = await api.getUnits(apiCategory['route']);
+    /* If the API errors out or we have no internet connection, this category
+     remains in placeholder mode (disabled) */
+    if (jsonUnits != null) {
+      final units = <Unit>[];
+      for (var unit in jsonUnits) {
+        units.add(Unit.fromJson(unit));
+      }
+      setState(() {
+        _categories.removeLast();
+        _categories.add(Category(
+          name: apiCategory['name'],
+          units: units,
+          color: _baseColors.last,
+          iconLocation: _icons.last,
+        ));
+      });
+    }
   }
 
   /// Function to call when a [Category] is tapped.

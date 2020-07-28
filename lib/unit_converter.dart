@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-
+import 'dart:async';
 import 'category.dart';
 import 'unit.dart';
+import 'api.dart';
 
 const _padding = EdgeInsets.all(16.0);
 
@@ -96,11 +97,23 @@ class _UnitConverterState extends State<UnitConverter> {
     return outputNum;
   }
 
-  void _updateConversion() {
-    setState(() {
-      _convertedValue =
-          _format(_inputValue * (_toValue.conversion / _fromValue.conversion));
-    });
+  Future<void> _updateConversion() async {
+    /* App`s API has a handy convert function, so it can use that for
+     the Currency [Category] */
+    if (widget.category.name == apiCategory['name']) {
+      final api = Api();
+      final conversion = await api.convert(apiCategory['route'],
+          _inputValue.toString(), _fromValue.name, _toValue.name);
+      setState(() {
+        _convertedValue = _format(conversion);
+      });
+    } else {
+      /* For the static units, the conversion is made locally */
+      setState(() {
+        _convertedValue = _format(
+            _inputValue * (_toValue.conversion / _fromValue.conversion));
+      });
+    }
   }
 
   void _updateInputValue(String input) {
@@ -125,7 +138,7 @@ class _UnitConverterState extends State<UnitConverter> {
 
   Unit _getUnit(String unitName) {
     return widget.category.units.firstWhere(
-          (Unit unit) {
+      (Unit unit) {
         return unit.name == unitName;
       },
       orElse: null,
@@ -219,8 +232,7 @@ class _UnitConverterState extends State<UnitConverter> {
     final arrows = RotatedBox(
       quarterTurns: 1,
       child: new IconTheme(
-        data: new IconThemeData(
-            color: Colors.white),
+        data: new IconThemeData(color: Colors.white),
         child: Icon(
           Icons.compare_arrows,
           size: 40.0,
@@ -251,8 +263,7 @@ class _UnitConverterState extends State<UnitConverter> {
       ),
     );
 
-    final converter = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    final converter = ListView(
       children: [
         input,
         arrows,

@@ -53,7 +53,7 @@ class _BackdropPanel extends StatelessWidget {
                   style: TextStyle(
                     color: _colorBody,
                     fontWeight: FontWeight.bold,
-                    fontSize: Theme.of(context).textTheme.headline3.fontSize,
+                    fontSize: Theme.of(context).textTheme.headline4.fontSize,
                   ),
                   child: title,
                 ),
