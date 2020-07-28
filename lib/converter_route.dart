@@ -71,7 +71,6 @@ class _ConverterRouteState extends State<ConverterRoute> {
     });
   }
 
-
   /// Clean up conversion; trim trailing zeros, e.g. 5.500 -> 5.5, 10.0 -> 10
   String _format(double conversion) {
     var outputNum = conversion.toStringAsPrecision(7);
@@ -100,8 +99,8 @@ class _ConverterRouteState extends State<ConverterRoute> {
       if (input == null || input.isEmpty) {
         _convertedValue = '';
       } else {
-        // Even though we are using the numerical keyboard, we still have to check
-        // for non-numerical input such as '5..0' or '6 -3'
+        /* Even though we are using the numerical keyboard, we still have to check
+        for non-numerical input such as '5..0' or '6 -3' */
         try {
           final inputDouble = double.parse(input);
           _showValidationError = false;
@@ -117,7 +116,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   Unit _getUnit(String unitName) {
     return widget.units.firstWhere(
-          (Unit unit) {
+      (Unit unit) {
         return unit.name == unitName;
       },
       orElse: null,
@@ -187,8 +186,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
           TextField(
             style: TextStyle(
               color: _colorBody,
-              fontSize:
-              Theme.of(context).textTheme.headline4.fontSize,
+              fontSize: Theme.of(context).textTheme.headline4.fontSize,
             ),
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
@@ -199,8 +197,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
               ),
               labelStyle: TextStyle(
                 color: _colorBody,
-                fontSize:
-                Theme.of(context).textTheme.headline4.fontSize,
+                fontSize: Theme.of(context).textTheme.headline4.fontSize,
               ),
               errorText: _showValidationError ? 'Invalid number entered' : null,
               labelText: 'Input',

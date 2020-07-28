@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -51,7 +52,8 @@ class _BackdropPanel extends StatelessWidget {
                 child: DefaultTextStyle(
                   style: TextStyle(
                     color: _colorBody,
-                    fontSize: Theme.of(context).textTheme.subtitle1.fontSize,
+                    fontWeight: FontWeight.bold,
+                    fontSize: Theme.of(context).textTheme.headline3.fontSize,
                   ),
                   child: title,
                 ),

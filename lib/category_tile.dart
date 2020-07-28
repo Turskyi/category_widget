@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 
 import 'category.dart';
 
-// We use an underscore to indicate that these variables are private.
-// See https://www.dartlang.org/guides/language/effective-dart/design#libraries
+/* An underscore is used to indicate that these variables are private.
+ See https://www.dartlang.org/guides/language/effective-dart/design#libraries */
 const _rowHeight = 100.0;
 final _borderRadius = BorderRadius.circular(_rowHeight / 2);
 
@@ -31,10 +31,10 @@ class CategoryTile extends StatelessWidget {
   ///
   /// This information includes the icon, name, and color for the [Category].
   @override
-  // This `context` parameter describes the location of this widget in the
-  // widget tree. It can be used for obtaining Theme data from the nearest
-  // Theme ancestor in the tree. Below, we obtain the display1 text theme.
-  // See https://docs.flutter.io/flutter/material/Theme-class.html
+  /* This `context` parameter describes the location of this widget in the
+   widget tree. It can be used for obtaining Theme data from the nearest
+   Theme ancestor in the tree. Below, we obtain the headline4 text theme.
+   See https://docs.flutter.io/flutter/material/Theme-class.html */
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
@@ -58,10 +58,8 @@ class CategoryTile extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Icon(
+                  child: Image.asset(
                     category.iconLocation,
-                    size: 60.0,
-                    /* Color of the icon */
                     color: Colors.white,
                   ),
                 ),

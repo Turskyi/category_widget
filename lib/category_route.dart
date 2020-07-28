@@ -7,10 +7,11 @@ import 'unit_converter.dart';
 import 'dart:async';
 import 'dart:convert';
 
-/// Category Route (screen).
+/// Loads in unit conversion data, and displays the data.
 ///
-/// This is the 'home' screen of the Unit Converter. It shows a header and
-/// a list of [Categories].
+/// This is the main screen to our app. It retrieves conversion data from a
+/// JSON asset and from an API. It displays the [Categories] in the back panel
+/// of a [Backdrop] widget and shows the [UnitConverter] in the front panel.
 ///
 /// While it is named CategoryRoute, a more apt name would be CategoryScreen,
 /// because it is responsible for the UI at the route's destination.
@@ -30,22 +31,17 @@ class _CreateRouteState extends State<CategoryRoute> {
    For more details, see https://github.com/dart-lang/sdk/issues/27755 */
   final _categories = <Category>[];
 
-  static const _icons = [
-    Icons.cake,
-    Icons.assignment_ind,
-    Icons.ac_unit,
-    Icons.accessibility,
-    Icons.accessible_forward,
-    Icons.add_shopping_cart,
-    Icons.beach_access,
-    Icons.wc
+  static const _icons = <String>[
+    'assets/icons/length.png',
+    'assets/icons/area.png',
+    'assets/icons/volume.png',
+    'assets/icons/mass.png',
+    'assets/icons/time.png',
+    'assets/icons/digital_storage.png',
+    'assets/icons/power.png',
   ];
 
   static const _baseColors = <ColorSwatch>[
-    ColorSwatch(0xFF6AB7A8, {
-      'highlight': Color(0xFF6AB7A8),
-      'splash': Color(0xFF0ABC9B),
-    }),
     ColorSwatch(0xFFFFD28E, {
       'highlight': Color(0xFFFFD28E),
       'splash': Color(0xFFFFA41C),
@@ -89,7 +85,7 @@ class _CreateRouteState extends State<CategoryRoute> {
 
   /// Retrieves a list of [Categories] and their [Unit]s
   Future<void> _retrieveLocalCategories() async {
-    /* Consider omitting the types for local variables. For more details on Effective
+    /* It is better to omit local variables. For more details on Effective
      Dart Usage, see https://www.dartlang.org/guides/language/effective-dart/usage */
     final json = DefaultAssetBundle
         .of(context)
